@@ -12,7 +12,7 @@ include(conan_toolchain.cmake)
 
 include_directories(include)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/session.cpp src/server.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/session.cpp src/server.cpp src/request_handler.cpp)
 find_package(Threads REQUIRED)
 set(Boost_USE_STATIC_LIBS        ON)  # only find static libs
 set(Boost_USE_DEBUG_LIBS         OFF) # ignore debug libs and 

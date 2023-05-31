@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     boost::asio::io_service io_service;
 
     using namespace std; // For atoi.
-    server s(io_service, atoi(argv[1]));
+    Server s(io_service, atoi(argv[1]));
 
     io_service.run();
   }
