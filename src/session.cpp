@@ -3,8 +3,7 @@
 
 Session::Session(boost::asio::io_service &io_service, std::shared_ptr<Database> db)
     : socket_(io_service),
-        request_handler_(),
-        db_(db)
+        service_(db)
 {
 }
 
@@ -26,7 +25,7 @@ void Session::handle_read(const boost::system::error_code &error,
 {
     if (!error)
     {
-        const auto& output = request_handler_.handle_request(std::string(data_, bytes_transferred));
+        const auto& output = service_.process_message(std::string(data_, bytes_transferred));
 
         boost::asio::async_write(socket_,
                                  boost::asio::buffer(output.c_str(), output.size()),

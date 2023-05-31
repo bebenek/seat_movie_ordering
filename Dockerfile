@@ -9,6 +9,8 @@ RUN apt-get update && \
     apt-get install -y python3 python3-pip
 
 RUN apt-get install -y build-essential cmake --no-install-recommends
+RUN apt-get install -y rapidjson-dev
+RUN apt-get install -y libgtest-dev
 # Install Conan
 RUN pip3 install conan
 

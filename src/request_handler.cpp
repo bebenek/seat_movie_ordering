@@ -1,23 +1,16 @@
 #include "request_handler.h"
 #include "rapidjson/document.h"
+#include "database.h"
 
 
 using namespace rapidjson;
 
-RequestHandler::RequestHandler(/* args */)
-{
-}
-
-RequestHandler::~RequestHandler()
-{
-}
-
-std::string RequestHandler::handle_request(std::string request) {
+RequestHandler::Request RequestHandler::handle_request(std::string request) const{
      Document d;
     ParseResult ok = d.Parse(request.c_str());
 
     if (ok && d.HasMember("movie")) {
-        return "Hello " + std::string(d["movie"].GetString()) + "!";
+        return {"Hello " + std::string(d["movie"].GetString()) + "!", boost::none, boost::none};
     }
-    return "Hello World!";
+    return {boost::none, boost::none, boost::none};
 }
