@@ -20,4 +20,5 @@ public:
 private:
     boost::asio::io_service &io_service_;
     tcp::acceptor acceptor_;
+    std::shared_ptr<Database> db_;
 };

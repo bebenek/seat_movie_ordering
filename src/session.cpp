@@ -1,9 +1,10 @@
 #include "session.h"
 #include <boost/bind.hpp>
 
-Session::Session(boost::asio::io_service &io_service)
+Session::Session(boost::asio::io_service &io_service, std::shared_ptr<Database> db)
     : socket_(io_service),
-        request_handler_()
+        request_handler_(),
+        db_(db)
 {
 }
 

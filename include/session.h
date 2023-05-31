@@ -1,13 +1,15 @@
 #pragma once
 
+#include <memory>
 #include <boost/asio.hpp>
 #include "request_handler.h"
 
+struct Database;
 using boost::asio::ip::tcp;
 class Session
 {
 public:
-    Session(boost::asio::io_service &io_service);
+    Session(boost::asio::io_service &io_service, std::shared_ptr<Database> db);
     tcp::socket &socket();
 
     void start();
@@ -24,4 +26,5 @@ private:
         max_length = 1024
     };
     char data_[max_length];
+    std::shared_ptr<Database> db_;
 };
