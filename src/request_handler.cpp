@@ -14,8 +14,9 @@ RequestHandler::~RequestHandler()
 
 std::string RequestHandler::handle_request(std::string request) {
      Document d;
-    d.Parse(request.c_str());
-    if (d.HasMember("movie")) {
+    ParseResult ok = d.Parse(request.c_str());
+
+    if (ok && d.HasMember("movie")) {
         return "Hello " + std::string(d["movie"].GetString()) + "!";
     }
     return "Hello World!";

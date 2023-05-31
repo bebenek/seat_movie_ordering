@@ -21,6 +21,7 @@ set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME    OFF) 
 find_package(Boost 1.71.0 COMPONENTS system REQUIRED)
 find_package(RapidJSON REQUIRED)
+include_directories(${Rapidjson_INCLUDE_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS} Threads::Threads ${Boost_LIBRARIES} RapidJSON)
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS} Threads::Threads ${Boost_LIBRARIES})
