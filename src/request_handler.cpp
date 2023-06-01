@@ -15,12 +15,12 @@ RequestHandler::Request RequestHandler::handleRequest(const std::string& request
     }
     boost::optional<std::string> movie = boost::none;
     boost::optional<std::string> theater = boost::none;
-    boost::optional<std::string> seat = boost::none;
+    boost::optional<std::vector<std::string>> seats = boost::none;
 
     // parse movie
     auto it = d.FindMember("movie");
     if (it == d.MemberEnd()) // no movie
-        return {movie, theater, seat};
+        return {movie, theater, seats};
     auto &v = it->value;
     if (!v.IsString())
     return invalid_request;
@@ -29,21 +29,27 @@ RequestHandler::Request RequestHandler::handleRequest(const std::string& request
     // parse theater
     it = d.FindMember("theater");
     if (it == d.MemberEnd()) // no theater
-        return {movie, theater, seat};
-    auto &v = it->value;
+        return {movie, theater, seats};
+    v = it->value;
     if (!v.IsString())
         return invalid_request;
     theater = v.GetString();
 
-    // parse seat
-    it = d.FindMember("seat");
-    if (it == d.MemberEnd()) // no seat
-        return {movie, theater, seat};
-    auto &v = it->value;
-    if (!v.IsString())
+    // parse seats
+    it = d.FindMember("seats");
+    if (it == d.MemberEnd()) // no seats
+        return {movie, theater, seats};
+    v = it->value;
+    if (!v.IsArray())
         return invalid_request;
-    seat = v.GetString();
+    seats = std::vector<std::string>();
+    for (auto& seat : v.GetArray())
+    {
+        if (!seat.IsString())
+            return invalid_request;
+        seats->emplace_back(seat.GetString());
+    }
 
 
-    return {movie, theater, seat};
+    return {movie, theater, seats};
 }

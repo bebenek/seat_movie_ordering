@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include <boost/optional.hpp>
 
 struct Database;
@@ -17,11 +18,11 @@ public:
 
     struct Request
     {
-        Request(boost::optional<std::string> movie, boost::optional<std::string> theater, boost::optional<std::string> seat, bool success = true)
-            : movie(movie), theater(theater), seat(seat), success(success) {}
+        Request(boost::optional<std::string> movie, boost::optional<std::string> theater, boost::optional<std::vector<std::string>> seats, bool success = true)
+            : movie(movie), theater(theater), seats(seats), success(success) {}
         boost::optional<std::string> movie;
         boost::optional<std::string> theater;
-        boost::optional<std::string> seat;
+        boost::optional<std::vector<std::string>> seats;
         bool success;
     };
 

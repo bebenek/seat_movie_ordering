@@ -4,6 +4,7 @@
 #include <boost/asio.hpp>
 #include "server.h"
 #include "file_parser.h"
+#include "database.h"
 
 
 int main(int argc, char *argv[])

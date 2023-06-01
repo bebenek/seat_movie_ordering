@@ -81,26 +81,22 @@ TEST_F(DatabaseTest, reserve_seat)
         {1, 1, 1, 1}};
 
     // WHEN
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "A1"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "A2"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "A3"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "A4"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "B1"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "B2"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "B3"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "B4"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "C1"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "C2"));
-    EXPECT_TRUE(database_->reserveSeat("m1", "t1", "C3"));
-    EXPECT_TRUE(database_->reserveSeat("m1", "t1", "C4"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "D1"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "D2"));
-    EXPECT_TRUE(database_->reserveSeat("m1", "t1", "D3"));
-    EXPECT_TRUE(database_->reserveSeat("m1", "t1", "D4"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "E1"));
-    EXPECT_FALSE(database_->reserveSeat("m1", "t1", "E2"));
-    EXPECT_TRUE(database_->reserveSeat("m1", "t1", "E3"));
-    EXPECT_TRUE(database_->reserveSeat("m1", "t1", "E4"));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"A1"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"A2"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"A3"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"A4"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"B1", "B2", "B3", "B4"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"C1"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"C2", "C3", "C4"}));
+    EXPECT_TRUE(database_->reserveSeats("m1", "t1", {"C3"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"C3", "C4"}));
+    EXPECT_TRUE(database_->reserveSeats("m1", "t1", {"C4"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"D1", "D2", "D3", "D4"}));
+    EXPECT_TRUE(database_->reserveSeats("m1", "t1", {"D3", "D4"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"D3", "D4"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"D4"}));
+    EXPECT_FALSE(database_->reserveSeats("m1", "t1", {"E1", "E2", "E3", "E4"}));
+    EXPECT_TRUE(database_->reserveSeats("m1", "t1", {"E3", "E4"}));
 
     // THEN
     EXPECT_TRUE(database_->getSeatsByMovieAndTheater("m1", "t1")->empty());

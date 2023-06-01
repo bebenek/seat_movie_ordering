@@ -83,13 +83,15 @@ There are 4 allowed requests for this BE:
    {
     "movie": "<movie_name>", // required
     "theater": "<theater_name>", // required
-    "seat": "<seat_id>" // required
+    "seat": ["<seat_id_1>", ..., "seat_id_x"], // required
    }
    ```
+   All of the seats must be available during reservastion to reserve at least one. We can reserve ALL-OR-NONE.
    Response will be similar to 3. but with boolean indicator if reservation was successfull or error message if cannot match:
    ```json
    {"error_message":"Movie or theater not found"}
    ```
+   If reservation was successful response will be reduced by the reserved seats.
 
 ## Input file format
 The file format should be that each line is separate json for example:
@@ -123,14 +125,14 @@ example input file exists in this repository so it can be used.
    ```
 4. No you can pick a seat to reserve:
    ```json
-   {"movie":"m1", "theater":"t1", "seat":"C3"}
-   {"reserved_successfully":true,"movie":"m1","theater":"t1","seats":["C4","D3","D4","E3","E4"]}
+   {"movie":"m1", "theater":"t1", "seat":["C3", "C4"]}
+   {"reserved_successfully":true,"movie":"m1","theater":"t1","seats":["D3","D4","E3","E4"]}
    ```
-   reserved successfully indicates if you were able to reserve and seats output is reduced by the seat used for request.
+   reserved successfully indicates if you were able to reserve and seats output is reduced by the seats used for request.
 5. If you pick up the same seat again:
    ```json
    {"movie":"m1", "theater":"t1", "seat":"C3"}
-   {"reserved_successfully":false,"movie":"m1","theater":"t1","seats":["C4","D3","D4","E3","E4"]}
+   {"reserved_successfully":false,"movie":"m1","theater":"t1","seats":["D3","D4","E3","E4"]}
    ```
    you will receive that reservation was not successfull and notghing will happen.
 

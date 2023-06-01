@@ -47,13 +47,13 @@ struct Database
     boost::optional<std::vector<std::string>> getSeatsByMovieAndTheater(const std::string& movie, const std::string& theater);
 
     /**
-     * @brief Reserve a seat for a movie and theater
+     * @brief Reserve a seats for a movie and theater
      * @param movie Movie name
      * @param theater Theater name
-     * @param seat Seat
-     * @return true if the seat was reserved, false otherwise
+     * @param seats Seats
+     * @return true if the seats were reserved, false otherwise
      */
-    bool reserveSeat(const std::string& movie, const std::string& theater, const std::string& seat);
+    bool reserveSeats(const std::string& movie, const std::string& theater, const std::vector<std::string>& seats);
 
 private:
     DatabaseType database;

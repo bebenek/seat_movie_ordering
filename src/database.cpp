@@ -64,14 +64,14 @@ boost::optional<std::vector<std::string>> Database::getSeatsByMovieAndTheater(co
         {
             if (it2->second[i][j] == 0)
             {
-                seats.push_back(std::string(1, 'A' + i) + std::string(1, '1' + j));
+                seats.emplace_back(std::string(1, 'A' + i) + std::string(1, '1' + j));
             }
         }
     }
     return seats;
 }
 
-bool Database::reserveSeat(const std::string& movie, const std::string& theater, const std::string& seat)
+bool Database::reserveSeats(const std::string& movie, const std::string& theater, const std::vector<std::string>& seats)
 {
     std::lock_guard<std::mutex> lock(mutex);
     auto it = database.find(movie);
@@ -84,21 +84,34 @@ bool Database::reserveSeat(const std::string& movie, const std::string& theater,
     {
         return false;
     }
-    auto &seats = it2->second;
-    if (seat.size() != 2)
+    auto &seatsDB = it2->second;
+    std::vector<std::pair<int,int>> seatsToReserve;
+    // checking if seats are valid
+    for (const auto &seat : seats)
     {
-        return false;
+        if (seat.size() != 2)
+        {
+            return false;
+        }
+        // translation form format "A1" to row and column
+        int row = seat[0] - 'A';
+        int col = seat[1] - '1';
+        if (row < 0 || row > 4 || col < 0 || col > 3)
+        {
+            return false;
+        }
+        // checking if already reserved
+        if (seatsDB[row][col] == 1)
+        {
+            return false;
+        }
+        seatsToReserve.emplace_back(row, col);
     }
-    int row = seat[0] - 'A';
-    int col = seat[1] - '1';
-    if (row < 0 || row > 4 || col < 0 || col > 3)
+    // reserving seats - this is the only place where the database is modified
+    for (const auto &seat : seatsToReserve)
     {
-        return false;
+        seatsDB[seat.first][seat.second] = 1;
     }
-    if (seats[row][col] == 1)
-    {
-        return false;
-    }
-    seats[row][col] = 1;
+
     return true;
 }
