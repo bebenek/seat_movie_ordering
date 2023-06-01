@@ -10,15 +10,7 @@ class ServiceTest : public ::testing::Test
 protected:
     std::shared_ptr<Service> service_;
 
-    ServiceTest()
-    {
-    }
-
-    virtual ~ServiceTest()
-    {
-    }
-
-    virtual void SetUp()
+    void SetUp() override
     {
         std::shared_ptr<Database> db = std::make_shared<Database>();
         service_ = std::make_shared<Service>(db);

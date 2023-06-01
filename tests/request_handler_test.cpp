@@ -95,7 +95,7 @@ TEST(requestTest, json_request_with_movie_and_seat)
     // THEN
     EXPECT_EQ(req.movie, ONE);
     EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, THREE);
+    EXPECT_EQ(req.seat, boost::none);
 }   
 
 TEST(requestTest, json_request_with_theater_and_seat)
@@ -103,21 +103,6 @@ TEST(requestTest, json_request_with_theater_and_seat)
     // GIVEN
     RequestHandler request_handler;
     std::string request = "{\"theater\": \"2\", \"seat\": \"3\"}";
-
-    // WHEN
-    const auto& req = request_handler.handle_request(request);
-
-    // THEN
-    EXPECT_EQ(req.movie, boost::none);
-    EXPECT_EQ(req.theater, TWO);
-    EXPECT_EQ(req.seat, THREE);
-}
-
-TEST(requestTest, json_request_all_empty)
-{
-    // GIVEN
-    RequestHandler request_handler;
-    std::string request = "{\"movie\": \"\", \"theater\": \"\", \"seat\": \"\"}";
 
     // WHEN
     const auto& req = request_handler.handle_request(request);
@@ -141,4 +126,34 @@ TEST(requestTest, json_request_all_data_different_order)
     EXPECT_EQ(req.movie, ONE);
     EXPECT_EQ(req.theater, TWO);
     EXPECT_EQ(req.seat, THREE);
+}
+
+TEST(requestTest, json_request_all_data_movie_number)
+{
+    // GIVEN
+    RequestHandler request_handler;
+    std::string request = "{\"seat\": \"3\", \"movie\": 1, \"theater\": \"2\"}";
+
+    // WHEN
+    const auto& req = request_handler.handle_request(request);
+
+    // THEN
+    EXPECT_EQ(req.movie, boost::none);
+    EXPECT_EQ(req.theater, boost::none);
+    EXPECT_EQ(req.seat, boost::none);
+}
+
+TEST(requestTest, json_request_all_data_seat_number)
+{
+    // GIVEN
+    RequestHandler request_handler;
+    std::string request = "{\"seat\": 3, \"movie\": \"1\", \"theater\": \"2\"}";
+
+    // WHEN
+    const auto& req = request_handler.handle_request(request);
+
+    // THEN
+    EXPECT_EQ(req.movie, boost::none);
+    EXPECT_EQ(req.theater, boost::none);
+    EXPECT_EQ(req.seat, boost::none);
 }

@@ -12,7 +12,7 @@ Service::~Service()
 const std::string& Service::process_message(const std::string& message)
 {
     const auto& req = request_handler_.handle_request(message);
-    if (req.movie) {
+    if (req.seat) {
         return *req.movie;
     }
     return message;

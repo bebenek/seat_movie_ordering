@@ -2,14 +2,21 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include <mutex>
 
 
 struct Database {
-    Database() : movies({"The Shawshank Redemption", "The Godfather", "The Dark Knight"}) {};
-    bool add_movie(std::string movie);
-    bool remove_movie(std::string movie);
-    const std::vector<std::string>& get_movies() const;
+    using Seats = int[5][4];
+    using DatabaseType = std::map<std::string, std::map<std::string, Seats>>;
+    Database() = default;
+    bool add_show(std::string movie, std::string theater, Seats seats);
+    std::vector<std::string> get_movies();
+    std::vector<std::string> get_theaters_by_movie(std::string movie);
+    std::vector<std::string> get_seats_by_movie_and_theater(std::string movie, std::string theater);
+    bool reserve_seat(std::string movie, std::string theater, std::string seat);
 private:
-    std::vector<std::string> movies;
+    DatabaseType database;
+    std::mutex mutex;
 
 };
