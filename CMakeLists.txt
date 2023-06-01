@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(async_tcp_echo_server)
+project(movie_reservation)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -26,7 +26,7 @@ include_directories(${Rapidjson_INCLUDE_DIRS})
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-add_library(handlers src/request_handler.cpp src/service.cpp src/database.cpp src/response_generator.cpp)
+add_library(handlers src/request_handler.cpp src/service.cpp src/database.cpp src/response_generator.cpp src/file_parser.cpp)
 
 add_executable(${PROJECT_NAME} src/main.cpp src/session.cpp src/server.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE handlers ${CONAN_LIBS} Threads::Threads ${Boost_LIBRARIES} )

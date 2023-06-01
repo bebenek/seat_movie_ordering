@@ -18,15 +18,6 @@ RUN pip3 install conan
 COPY . .
 
 # Install dependencies with Conan
-# RUN conan profile detect && conan install . --build missing --profile:build=default --profile:host=default
-
 RUN conan profile detect && conan install . --build=missing
+
 RUN mkdir -p build && cd build && cmake .. && cmake --build .
-# CMD ["/app/build/async_tcp_echo_server 8080"]
-# CMD ["bash", "-c", "while true; do sleep 1; done"]
-# # # Build the project
-# RUN mkdir build && \
-#     cd build && \
-#     cp conanbuildinfo.cmake build/ && \
-#     cmake .. && \
-#     cmake --build .

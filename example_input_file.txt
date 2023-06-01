@@ -1,0 +1,8 @@
+{"movie": "movie_1", "theater": "theather_1", "seat": ["A1", "A2", "A3", "A4"]}
+{"movie": "movie_1", "theater": "theather_2", "seat": ["B1", "B2", "B3", "B4"]}
+{"movie": "movie_2", "theater": "theather_1", "seat": ["C1", "C2", "C3", "C4"]}
+{"movie": "movie_2", "theater": "theather_2", "seat": ["D1", "D2", "D3", "D4"]}
+{"movie": "movie_21", "theater": "theather_1", "seat": ["E1", "E2", "E3", "E4"]}
+{"movie": "movie_21", "theater": "theather_12", "seat": ["A1", "B1", "C1", "D1", "E1"]}
+{"movie": "movie_21", "theater": "theather_122", "seat": ["A2", "B2", "C2", "D2", "E2"]}
+{"movie": "movie_21", "theater": "theather_123", "seat": ["A3", "B3", "C3", "D3", "E3"]}

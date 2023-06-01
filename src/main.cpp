@@ -3,23 +3,28 @@
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include "server.h"
+#include "file_parser.h"
 
-void loadExampleDBData(std::shared_ptr<Database> db);
 
 int main(int argc, char *argv[])
 {
     try
     {
-        if (argc != 2)
+        if (argc != 3)
         {
-            std::cout << "Usage: async_tcp_echo_server <port>\n";
+            std::cout << "Usage: movie_reser <port> <filename>\n";
             return 1;
         }
 
         boost::asio::io_service io_service;
 
         std::shared_ptr<Database> db = std::make_shared<Database>();
-        loadExampleDBData(db);
+        if (!FileParser::parseFile(argv[2], db))
+        {
+            std::cout << "Could not parse the file: " << argv[2] << std::endl;
+            return 1;
+
+        }
         Server s(io_service, std::atoi(argv[1]), db);
 
         io_service.run();
@@ -30,32 +35,4 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-}
-
-void loadExampleDBData(std::shared_ptr<Database> db)
-{
-    Database::Seats seats1 = {
-        {1, 1, 1, 1},
-        {1, 1, 1, 1},
-        {1, 1, 0, 0},
-        {1, 1, 0, 0},
-        {1, 1, 0, 0}};
-    std::vector<std::string> available_seats1 = {
-        "C3", "C4",
-        "D3", "D4",
-        "E3", "E4"};
-    Database::Seats seats2 = {
-        {0, 0, 1, 1},
-        {0, 0, 1, 1},
-        {1, 1, 1, 0},
-        {1, 1, 1, 1},
-        {1, 1, 1, 1}};
-    std::vector<std::string> available_seats2 = {
-        "A1", "A2",
-        "B1", "B2",
-        "C4"};
-
-    db->add_show("m1", "t1", seats1);
-    db->add_show("m1", "t2", seats2);
-    db->add_show("m2", "t2", seats1);
 }
