@@ -5,6 +5,10 @@
 #include <boost/optional.hpp>
 
 struct Database;
+
+/**
+ * @brief This class is responsible for handling the requests from the client.
+ */
 class RequestHandler
 {
 public:
@@ -21,5 +25,14 @@ public:
         bool success;
     };
 
+    /**
+     * @brief This function handles the request from the client.
+     *
+     * Translates json to a RequestHandler::Request object.
+     * boost::none if something missing or invalid.
+     *
+     * @param request The request from the client.
+     * @return RequestHandler::Request The request from the client.
+     */
     Request handle_request(std::string request) const;
 };

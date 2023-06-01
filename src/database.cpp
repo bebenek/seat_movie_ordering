@@ -85,6 +85,10 @@ bool Database::reserve_seat(std::string movie, std::string theater, std::string 
         return false;
     }
     auto &seats = it2->second;
+    if (seat.size() != 2)
+    {
+        return false;
+    }
     int row = seat[0] - 'A';
     int col = seat[1] - '1';
     if (row < 0 || row > 4 || col < 0 || col > 3)

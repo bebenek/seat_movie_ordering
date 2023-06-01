@@ -1,10 +1,10 @@
 #include "server.h"
 #include "database.h"
 
-Server::Server(boost::asio::io_service &io_service, short port)
+Server::Server(boost::asio::io_service &io_service, short port, std::shared_ptr<Database> db)
     : ioService(io_service),
       acceptor(io_service, tcp::endpoint(tcp::v4(), port)),
-      db(std::make_shared<Database>())
+      db(db)
 {
     start_accept();
 }

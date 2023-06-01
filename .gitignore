@@ -6,3 +6,7 @@ conanrun.sh
 conanrunenv-release-x86_64.sh
 deactivate_conanbuild.sh
 deactivate_conanrun.sh
+
+docs/
+html/
+latex/

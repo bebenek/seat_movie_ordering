@@ -6,16 +6,46 @@
 
 struct Database;
 using boost::asio::ip::tcp;
+
+/**
+ * @brief A session is a connection between a client and the server.
+ */
 class Session
 {
 public:
     Session(boost::asio::io_service &io_service, std::shared_ptr<Database> db);
+
+    /**
+     * @brief Get the socket object
+     *
+     * @return tcp::socket&
+     */
     tcp::socket &getSocket();
 
+    /**
+     * @brief Start the session by reading from the socket.
+     *
+     * @return void
+     */
     void start();
 
+    /**
+     * @brief Handle a read from the socket.
+     *
+     *
+     * @param error
+     * @param bytes_transferred
+     * @return void
+     */
     void handle_read(const boost::system::error_code &error,
                      size_t bytes_transferred);
+
+    /**
+     * @brief Handle a write to the socket.
+     *
+     * @param error
+     * @return void
+     */
     void handle_write(const boost::system::error_code &error);
 
 private:

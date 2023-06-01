@@ -1,5 +1,7 @@
 #include "session.h"
+#include <iostream>
 #include <boost/bind.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 
 Session::Session(boost::asio::io_service &io_service, std::shared_ptr<Database> db)
     : socket(io_service),
@@ -25,7 +27,13 @@ void Session::handle_read(const boost::system::error_code &error,
 {
     if (!error)
     {
-        const auto &output = service.process_message(std::string(dataStr, bytes_transferred));
+        std::string message(dataStr, bytes_transferred);
+        if (boost::starts_with(message, "exit"))
+        {
+            delete this;
+            return;
+        }
+        const auto &output = service.process_message(message);
 
         boost::asio::async_write(socket,
                                  boost::asio::buffer(output.c_str(), output.size()),
