@@ -20,7 +20,7 @@ public:
      * @param message The message from the client. Expecting JSON
      * @return std::string The response (JSON) to the client.
      */
-    std::string process_message(const std::string &message);
+    std::string processMessage(const std::string &message);
 
 private:
     std::shared_ptr<Database> db;

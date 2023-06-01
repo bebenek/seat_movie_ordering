@@ -1,6 +1,6 @@
 #include "database.h"
 
-bool Database::add_show(std::string movie, std::string theater, Seats seats)
+bool Database::addShow(const std::string& movie, const std::string& theater, const Seats& seats)
 {
     std::lock_guard<std::mutex> lock(mutex);
     auto &theaters = database[movie];
@@ -15,7 +15,7 @@ bool Database::add_show(std::string movie, std::string theater, Seats seats)
     return true;
 }
 
-std::vector<std::string> Database::get_movies()
+std::vector<std::string> Database::getMovies()
 {
     std::lock_guard<std::mutex> lock(mutex);
     std::vector<std::string> movies;
@@ -26,7 +26,7 @@ std::vector<std::string> Database::get_movies()
     return movies;
 }
 
-boost::optional<std::vector<std::string>> Database::get_theaters_by_movie(std::string movie)
+boost::optional<std::vector<std::string>> Database::getTheatersByMovie(const std::string& movie)
 {
     std::lock_guard<std::mutex> lock(mutex);
     static std::vector<std::string> empty;
@@ -43,7 +43,7 @@ boost::optional<std::vector<std::string>> Database::get_theaters_by_movie(std::s
     return theaters;
 }
 
-boost::optional<std::vector<std::string>> Database::get_seats_by_movie_and_theater(std::string movie, std::string theater)
+boost::optional<std::vector<std::string>> Database::getSeatsByMovieAndTheater(const std::string& movie, const std::string& theater)
 {
     std::lock_guard<std::mutex> lock(mutex);
     static std::vector<std::string> empty;
@@ -71,7 +71,7 @@ boost::optional<std::vector<std::string>> Database::get_seats_by_movie_and_theat
     return seats;
 }
 
-bool Database::reserve_seat(std::string movie, std::string theater, std::string seat)
+bool Database::reserveSeat(const std::string& movie, const std::string& theater, const std::string& seat)
 {
     std::lock_guard<std::mutex> lock(mutex);
     auto it = database.find(movie);

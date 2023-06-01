@@ -19,7 +19,7 @@ std::string ResponseGenerator::generateJsonMoviesResponse(const std::vector<std:
     return buffer.GetString();
 }
 
-std::string ResponseGenerator::generateJsonTheatersResponse(std::string movie, const std::vector<std::string> &theaters) const
+std::string ResponseGenerator::generateJsonTheatersResponse(const std::string& movie, const std::vector<std::string> &theaters) const
 {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -37,7 +37,7 @@ std::string ResponseGenerator::generateJsonTheatersResponse(std::string movie, c
     return buffer.GetString();
 }
 
-std::string ResponseGenerator::generateJsonSeatsResponse(std::string movie, std::string theater, const std::vector<std::string> &seats, boost::optional<bool> reserved_successfully) const
+std::string ResponseGenerator::generateJsonSeatsResponse(const std::string& movie, const std::string& theater, const std::vector<std::string> &seats, boost::optional<bool> reserved_successfully) const
 {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -62,7 +62,7 @@ std::string ResponseGenerator::generateJsonSeatsResponse(std::string movie, std:
     return buffer.GetString();
 }
 
-std::string ResponseGenerator::generateJsonErrorResponse(std::string errorMessage) const
+std::string ResponseGenerator::generateJsonErrorResponse(const std::string& errorMessage) const
 {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);

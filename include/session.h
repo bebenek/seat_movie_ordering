@@ -37,7 +37,7 @@ public:
      * @param bytes_transferred
      * @return void
      */
-    void handle_read(const boost::system::error_code &error,
+    void handleRead(const boost::system::error_code &error,
                      size_t bytes_transferred);
 
     /**
@@ -46,7 +46,7 @@ public:
      * @param error
      * @return void
      */
-    void handle_write(const boost::system::error_code &error);
+    void handleWrite(const boost::system::error_code &error);
 
 private:
     Service service;

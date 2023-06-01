@@ -23,20 +23,20 @@ struct Database
      * @param seats Seats
      * @return true if the show was added, false otherwise
      */
-    bool add_show(std::string movie, std::string theater, Seats seats);
+    bool addShow(const std::string& movie, const std::string& theater, const Seats& seats);
 
     /**
      * @brief Get all movies
      * @return A vector of movies
      */
-    std::vector<std::string> get_movies();
+    std::vector<std::string> getMovies();
 
     /**
      * @brief Get all theaters for a movie
      * @param movie Movie name
      * @return A vector of theaters or boost::none if the movie does not exist
      */
-    boost::optional<std::vector<std::string>> get_theaters_by_movie(std::string movie);
+    boost::optional<std::vector<std::string>> getTheatersByMovie(const std::string& movie);
 
     /**
      * @brief Get all seats for a movie and theater
@@ -44,7 +44,7 @@ struct Database
      * @param theater Theater name
      * @return A vector of seats or boost::none if the movie or theater does not exist
      */
-    boost::optional<std::vector<std::string>> get_seats_by_movie_and_theater(std::string movie, std::string theater);
+    boost::optional<std::vector<std::string>> getSeatsByMovieAndTheater(const std::string& movie, const std::string& theater);
 
     /**
      * @brief Reserve a seat for a movie and theater
@@ -53,7 +53,7 @@ struct Database
      * @param seat Seat
      * @return true if the seat was reserved, false otherwise
      */
-    bool reserve_seat(std::string movie, std::string theater, std::string seat);
+    bool reserveSeat(const std::string& movie, const std::string& theater, const std::string& seat);
 
 private:
     DatabaseType database;

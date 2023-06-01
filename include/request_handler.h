@@ -34,5 +34,5 @@ public:
      * @param request The request from the client.
      * @return RequestHandler::Request The request from the client.
      */
-    Request handle_request(std::string request) const;
+    Request handleRequest(const std::string& request) const;
 };

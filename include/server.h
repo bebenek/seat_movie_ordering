@@ -23,7 +23,7 @@ public:
      *
      * @return void
      */
-    void start_accept();
+    void startAccept();
 
     /**
      * @brief handle_accept
@@ -34,7 +34,7 @@ public:
      * @param error
      * @return void
      */
-    void handle_accept(Session *new_session,
+    void handleAccept(Session *new_session,
                        const boost::system::error_code &error);
 
 private:

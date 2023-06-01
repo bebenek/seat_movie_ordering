@@ -4,7 +4,7 @@
 
 using namespace rapidjson;
 
-RequestHandler::Request RequestHandler::handle_request(std::string request) const
+RequestHandler::Request RequestHandler::handleRequest(const std::string& request) const
 {
     Document d;
     ParseResult ok = d.Parse(request.c_str());

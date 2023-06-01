@@ -70,7 +70,7 @@ bool parseFile(const std::string &fileName, std::shared_ptr<Database> db)
             }
             seats[row][col] = 1;
         }
-        db->add_show(movie, theater, seats);
+        db->addShow(movie, theater, seats);
     }
 
     return true;

@@ -17,12 +17,12 @@ tcp::socket &Session::getSocket()
 void Session::start()
 {
     socket.async_read_some(boost::asio::buffer(dataStr, max_length),
-                           boost::bind(&Session::handle_read, this,
+                           boost::bind(&Session::handleRead, this,
                                        boost::asio::placeholders::error,
                                        boost::asio::placeholders::bytes_transferred));
 }
 
-void Session::handle_read(const boost::system::error_code &error,
+void Session::handleRead(const boost::system::error_code &error,
                           size_t bytes_transferred)
 {
     if (!error)
@@ -33,11 +33,11 @@ void Session::handle_read(const boost::system::error_code &error,
             delete this;
             return;
         }
-        const auto &output = service.process_message(message);
+        const auto &output = service.processMessage(message);
 
         boost::asio::async_write(socket,
                                  boost::asio::buffer(output.c_str(), output.size()),
-                                 boost::bind(&Session::handle_write, this,
+                                 boost::bind(&Session::handleWrite, this,
                                              boost::asio::placeholders::error));
     }
     else
@@ -46,12 +46,12 @@ void Session::handle_read(const boost::system::error_code &error,
     }
 }
 
-void Session::handle_write(const boost::system::error_code &error)
+void Session::handleWrite(const boost::system::error_code &error)
 {
     if (!error)
     {
         socket.async_read_some(boost::asio::buffer(dataStr, max_length),
-                               boost::bind(&Session::handle_read, this,
+                               boost::bind(&Session::handleRead, this,
                                            boost::asio::placeholders::error,
                                            boost::asio::placeholders::bytes_transferred));
     }

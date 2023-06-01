@@ -25,7 +25,7 @@ public:
      * @param theaters The theaters to be included in the response.
      * @return std::string The JSON response.
      */
-    std::string generateJsonTheatersResponse(std::string movie, const std::vector<std::string> &theaters) const;
+    std::string generateJsonTheatersResponse(const std::string& movie, const std::vector<std::string> &theaters) const;
 
     /**
      * @brief Generates a JSON response with the seats.
@@ -38,7 +38,7 @@ public:
      * @param reserved_successfully Whether the seats were reserved successfully or not.
      * @return std::string The JSON response.
      */
-    std::string generateJsonSeatsResponse(std::string movie, std::string theater, const std::vector<std::string> &seats, boost::optional<bool> reserved_successfully = boost::none) const;
+    std::string generateJsonSeatsResponse(const std::string& movie, const std::string& theater, const std::vector<std::string> &seats, boost::optional<bool> reserved_successfully = boost::none) const;
 
     /**
      * @brief Generates a JSON response with an error message.
@@ -46,5 +46,5 @@ public:
      * @param errorMessage The error message to be included in the response.
      * @return std::string The JSON response.
      */
-    std::string generateJsonErrorResponse(std::string errorMessage) const;
+    std::string generateJsonErrorResponse(const std::string& errorMessage) const;
 };

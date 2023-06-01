@@ -6,19 +6,19 @@ Server::Server(boost::asio::io_service &io_service, short port, std::shared_ptr<
       acceptor(io_service, tcp::endpoint(tcp::v4(), port)),
       db(db)
 {
-    start_accept();
+    startAccept();
 }
 
-void Server::start_accept()
+void Server::startAccept()
 {
     Session *new_session = new Session(ioService, db);
 
     acceptor.async_accept(new_session->getSocket(),
-                          boost::bind(&Server::handle_accept, this, new_session,
+                          boost::bind(&Server::handleAccept, this, new_session,
                                       boost::asio::placeholders::error));
 }
 
-void Server::handle_accept(Session *new_session,
+void Server::handleAccept(Session *new_session,
                            const boost::system::error_code &error)
 {
     if (!error)
@@ -30,5 +30,5 @@ void Server::handle_accept(Session *new_session,
         delete new_session;
     }
 
-    start_accept();
+    startAccept();
 }
