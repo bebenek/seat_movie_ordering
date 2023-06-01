@@ -3,14 +3,15 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-std::string ResponseGenerator::generateJsonMoviesResponse(const std::vector<std::string>& movies) const
+std::string ResponseGenerator::generateJsonMoviesResponse(const std::vector<std::string> &movies) const
 {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     writer.StartObject();
     writer.Key("movies");
     writer.StartArray();
-    for (const auto& movie : movies) {
+    for (const auto &movie : movies)
+    {
         writer.String(movie.c_str());
     }
     writer.EndArray();
@@ -18,7 +19,7 @@ std::string ResponseGenerator::generateJsonMoviesResponse(const std::vector<std:
     return buffer.GetString();
 }
 
-std::string ResponseGenerator::generateJsonTheatersResponse(std::string movie, const std::vector<std::string>& theaters) const
+std::string ResponseGenerator::generateJsonTheatersResponse(std::string movie, const std::vector<std::string> &theaters) const
 {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -27,7 +28,8 @@ std::string ResponseGenerator::generateJsonTheatersResponse(std::string movie, c
     writer.String(movie.c_str());
     writer.Key("theaters");
     writer.StartArray();
-    for (const auto& theater : theaters) {
+    for (const auto &theater : theaters)
+    {
         writer.String(theater.c_str());
     }
     writer.EndArray();
@@ -35,18 +37,24 @@ std::string ResponseGenerator::generateJsonTheatersResponse(std::string movie, c
     return buffer.GetString();
 }
 
-std::string ResponseGenerator::generateJsonSeatsResponse(std::string movie, std::string theater, const std::vector<std::string>& seats) const
+std::string ResponseGenerator::generateJsonSeatsResponse(std::string movie, std::string theater, const std::vector<std::string> &seats, boost::optional<bool> reserved_successfully) const
 {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     writer.StartObject();
+    if (reserved_successfully)
+    {
+        writer.Key("reserved_successfully");
+        writer.Bool(reserved_successfully.get());
+    }
     writer.Key("movie");
     writer.String(movie.c_str());
     writer.Key("theater");
     writer.String(theater.c_str());
     writer.Key("seats");
     writer.StartArray();
-    for (const auto& seat : seats) {
+    for (const auto &seat : seats)
+    {
         writer.String(seat.c_str());
     }
     writer.EndArray();
@@ -54,5 +62,13 @@ std::string ResponseGenerator::generateJsonSeatsResponse(std::string movie, std:
     return buffer.GetString();
 }
 
-
-
+std::string ResponseGenerator::generateJsonErrorResponse(std::string errorMessage) const
+{
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    writer.StartObject();
+    writer.Key("error_message");
+    writer.String(errorMessage.c_str());
+    writer.EndObject();
+    return buffer.GetString();
+}

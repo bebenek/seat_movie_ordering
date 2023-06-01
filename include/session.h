@@ -10,7 +10,7 @@ class Session
 {
 public:
     Session(boost::asio::io_service &io_service, std::shared_ptr<Database> db);
-    tcp::socket &socket();
+    tcp::socket &getSocket();
 
     void start();
 
@@ -19,11 +19,11 @@ public:
     void handle_write(const boost::system::error_code &error);
 
 private:
-    Service service_;
-    tcp::socket socket_;
+    Service service;
+    tcp::socket socket;
     enum
     {
         max_length = 1024
     };
-    char data_[max_length];
+    char dataStr[max_length];
 };

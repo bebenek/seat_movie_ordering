@@ -2,22 +2,22 @@
 #include <boost/bind.hpp>
 
 Session::Session(boost::asio::io_service &io_service, std::shared_ptr<Database> db)
-    : socket_(io_service),
-        service_(db)
+    : socket(io_service),
+      service(db)
 {
 }
 
-tcp::socket &Session::socket()
+tcp::socket &Session::getSocket()
 {
-    return socket_;
+    return socket;
 }
 
 void Session::start()
 {
-    socket_.async_read_some(boost::asio::buffer(data_, max_length),
-                            boost::bind(&Session::handle_read, this,
-                                        boost::asio::placeholders::error,
-                                        boost::asio::placeholders::bytes_transferred));
+    socket.async_read_some(boost::asio::buffer(dataStr, max_length),
+                           boost::bind(&Session::handle_read, this,
+                                       boost::asio::placeholders::error,
+                                       boost::asio::placeholders::bytes_transferred));
 }
 
 void Session::handle_read(const boost::system::error_code &error,
@@ -25,9 +25,9 @@ void Session::handle_read(const boost::system::error_code &error,
 {
     if (!error)
     {
-        const auto& output = service_.process_message(std::string(data_, bytes_transferred));
+        const auto &output = service.process_message(std::string(dataStr, bytes_transferred));
 
-        boost::asio::async_write(socket_,
+        boost::asio::async_write(socket,
                                  boost::asio::buffer(output.c_str(), output.size()),
                                  boost::bind(&Session::handle_write, this,
                                              boost::asio::placeholders::error));
@@ -42,10 +42,10 @@ void Session::handle_write(const boost::system::error_code &error)
 {
     if (!error)
     {
-        socket_.async_read_some(boost::asio::buffer(data_, max_length),
-                                boost::bind(&Session::handle_read, this,
-                                            boost::asio::placeholders::error,
-                                            boost::asio::placeholders::bytes_transferred));
+        socket.async_read_some(boost::asio::buffer(dataStr, max_length),
+                               boost::bind(&Session::handle_read, this,
+                                           boost::asio::placeholders::error,
+                                           boost::asio::placeholders::bytes_transferred));
     }
     else
     {

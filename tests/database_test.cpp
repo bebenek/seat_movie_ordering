@@ -19,25 +19,21 @@ protected:
         {1, 1, 1, 1},
         {1, 1, 0, 0},
         {1, 1, 0, 0},
-        {1, 1, 0, 0}
-    };
+        {1, 1, 0, 0}};
     std::vector<std::string> available_seats1 = {
         "C3", "C4",
         "D3", "D4",
-        "E3", "E4"
-    };
+        "E3", "E4"};
     Database::Seats seats2 = {
         {0, 0, 1, 1},
         {0, 0, 1, 1},
         {1, 1, 1, 0},
         {1, 1, 1, 1},
-        {1, 1, 1, 1}
-    };
+        {1, 1, 1, 1}};
     std::vector<std::string> available_seats2 = {
         "A1", "A2",
         "B1", "B2",
-        "C4"
-    };
+        "C4"};
 };
 
 TEST_F(DatabaseTest, add_show)
@@ -48,13 +44,11 @@ TEST_F(DatabaseTest, add_show)
         {1, 1, 1, 1},
         {1, 0, 0, 0},
         {1, 0, 0, 0},
-        {1, 0, 0, 0}
-    };
+        {1, 0, 0, 0}};
     std::vector<std::string> available_seats = {
         "C2", "C3", "C4",
         "D2", "D3", "D4",
-        "E2", "E3", "E4"
-    };
+        "E2", "E3", "E4"};
 
     // WHEN
     database_->add_show("m3", "t3", seats);
@@ -74,7 +68,7 @@ TEST_F(DatabaseTest, get_seats)
     EXPECT_EQ(seats1, this->available_seats1);
     EXPECT_EQ(seats12, this->available_seats2);
     EXPECT_EQ(seats2, this->available_seats1);
-}   
+}
 
 TEST_F(DatabaseTest, reserve_seat)
 {
@@ -84,8 +78,7 @@ TEST_F(DatabaseTest, reserve_seat)
         {1, 1, 1, 1},
         {1, 1, 1, 1},
         {1, 1, 1, 1},
-        {1, 1, 1, 1}
-    };
+        {1, 1, 1, 1}};
 
     // WHEN
     EXPECT_FALSE(database_->reserve_seat("m1", "t1", "A1"));
@@ -110,7 +103,7 @@ TEST_F(DatabaseTest, reserve_seat)
     EXPECT_TRUE(database_->reserve_seat("m1", "t1", "E4"));
 
     // THEN
-    EXPECT_TRUE(database_->get_seats_by_movie_and_theater("m1", "t1").empty());
+    EXPECT_TRUE(database_->get_seats_by_movie_and_theater("m1", "t1")->empty());
     EXPECT_EQ(database_->get_seats_by_movie_and_theater("m1", "t2"), this->available_seats2);
     EXPECT_EQ(database_->get_seats_by_movie_and_theater("m2", "t2"), this->available_seats1);
 }
@@ -140,4 +133,26 @@ TEST_F(DatabaseTest, get_theaters_by_movie)
     // THEN
     EXPECT_EQ(theaters1_, theaters1);
     EXPECT_EQ(theaters2_, theaters2);
+}
+
+TEST_F(DatabaseTest, get_theaters_by_missing_movie)
+{
+    // GIVEN
+
+    // WHEN
+    auto theaters1_ = database_->get_theaters_by_movie("e1");
+
+    // THEN
+    EXPECT_EQ(theaters1_, boost::none);
+}
+
+TEST_F(DatabaseTest, get_seats_by_movie_and_missing_theater)
+{
+    // GIVEN
+
+    // WHEN
+    auto seats = database_->get_seats_by_movie_and_theater("m1", "e1");
+
+    // THEN
+    EXPECT_EQ(seats, boost::none);
 }

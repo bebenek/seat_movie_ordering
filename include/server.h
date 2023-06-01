@@ -18,7 +18,7 @@ public:
                        const boost::system::error_code &error);
 
 private:
-    boost::asio::io_service &io_service_;
-    tcp::acceptor acceptor_;
-    std::shared_ptr<Database> db_;
+    boost::asio::io_service &ioService;
+    tcp::acceptor acceptor;
+    std::shared_ptr<Database> db;
 };

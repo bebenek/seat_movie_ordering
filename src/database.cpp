@@ -3,8 +3,8 @@
 bool Database::add_show(std::string movie, std::string theater, Seats seats)
 {
     std::lock_guard<std::mutex> lock(mutex);
-    auto& theaters = database[movie];
-    auto& seats_by_theater = theaters[theater];
+    auto &theaters = database[movie];
+    auto &seats_by_theater = theaters[theater];
     for (int i = 0; i < 5; ++i)
     {
         for (int j = 0; j < 4; ++j)
@@ -19,43 +19,43 @@ std::vector<std::string> Database::get_movies()
 {
     std::lock_guard<std::mutex> lock(mutex);
     std::vector<std::string> movies;
-    for (const auto& movie : database)
+    for (const auto &movie : database)
     {
         movies.push_back(movie.first);
     }
     return movies;
 }
 
-std::vector<std::string> Database::get_theaters_by_movie(std::string movie)
+boost::optional<std::vector<std::string>> Database::get_theaters_by_movie(std::string movie)
 {
     std::lock_guard<std::mutex> lock(mutex);
     static std::vector<std::string> empty;
     auto it = database.find(movie);
     if (it == database.end())
     {
-        return empty;
+        return boost::none;
     }
     std::vector<std::string> theaters;
-    for (const auto& theater : it->second)
+    for (const auto &theater : it->second)
     {
         theaters.push_back(theater.first);
     }
     return theaters;
 }
 
-std::vector<std::string> Database::get_seats_by_movie_and_theater(std::string movie, std::string theater)
+boost::optional<std::vector<std::string>> Database::get_seats_by_movie_and_theater(std::string movie, std::string theater)
 {
     std::lock_guard<std::mutex> lock(mutex);
     static std::vector<std::string> empty;
     auto it = database.find(movie);
     if (it == database.end())
     {
-        return empty;
+        return boost::none;
     }
     auto it2 = it->second.find(theater);
     if (it2 == it->second.end())
     {
-        return empty;
+        return boost::none;
     }
     std::vector<std::string> seats;
     for (int i = 0; i < 5; ++i)
@@ -69,7 +69,6 @@ std::vector<std::string> Database::get_seats_by_movie_and_theater(std::string mo
         }
     }
     return seats;
-
 }
 
 bool Database::reserve_seat(std::string movie, std::string theater, std::string seat)
@@ -85,7 +84,7 @@ bool Database::reserve_seat(std::string movie, std::string theater, std::string 
     {
         return false;
     }
-    auto& seats = it2->second;
+    auto &seats = it2->second;
     int row = seat[0] - 'A';
     int col = seat[1] - '1';
     if (row < 0 || row > 4 || col < 0 || col > 3)

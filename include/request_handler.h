@@ -11,12 +11,14 @@ public:
     RequestHandler() = default;
     ~RequestHandler() = default;
 
-    struct Request {
-        Request(boost::optional<std::string> movie, boost::optional<std::string> theater, boost::optional<std::string> seat)
-            : movie(movie), theater(theater), seat(seat) {}
+    struct Request
+    {
+        Request(boost::optional<std::string> movie, boost::optional<std::string> theater, boost::optional<std::string> seat, bool success = true)
+            : movie(movie), theater(theater), seat(seat), success(success) {}
         boost::optional<std::string> movie;
         boost::optional<std::string> theater;
         boost::optional<std::string> seat;
+        bool success;
     };
 
     Request handle_request(std::string request) const;
