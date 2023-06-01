@@ -25,38 +25,34 @@ void Session::start()
 void Session::handleRead(const boost::system::error_code &error,
                           size_t bytes_transferred)
 {
-    if (!error)
-    {
-        std::string message(dataStr, bytes_transferred);
-        if (boost::starts_with(message, "exit"))
-        {
-            delete this;
-            return;
-        }
-        const auto &output = service.processMessage(message);
-
-        boost::asio::async_write(socket,
-                                 boost::asio::buffer(output.c_str(), output.size()),
-                                 boost::bind(&Session::handleWrite, this,
-                                             boost::asio::placeholders::error));
-    }
-    else
+    if (error)
     {
         delete this;
+        return;
     }
+    std::string message(dataStr, bytes_transferred);
+    if (boost::starts_with(message, "exit"))
+    {
+        delete this;
+        return;
+    }
+    const auto &output = service.processMessage(message);
+
+    boost::asio::async_write(socket,
+                                boost::asio::buffer(output.c_str(), output.size()),
+                                boost::bind(&Session::handleWrite, this,
+                                            boost::asio::placeholders::error));
 }
 
 void Session::handleWrite(const boost::system::error_code &error)
 {
-    if (!error)
-    {
-        socket.async_read_some(boost::asio::buffer(dataStr, max_length),
-                               boost::bind(&Session::handleRead, this,
-                                           boost::asio::placeholders::error,
-                                           boost::asio::placeholders::bytes_transferred));
-    }
-    else
+    if (error)
     {
         delete this;
+        return;
     }
+    socket.async_read_some(boost::asio::buffer(dataStr, max_length),
+                            boost::bind(&Session::handleRead, this,
+                                        boost::asio::placeholders::error,
+                                        boost::asio::placeholders::bytes_transferred));
 }

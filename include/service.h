@@ -2,10 +2,10 @@
 
 #include <string>
 #include <memory>
-#include "database.h"
 #include "request_handler.h"
 #include "response_generator.h"
 
+class Database;
 /**
  * @brief The Service class is responsible for processing messages from the client.
  *

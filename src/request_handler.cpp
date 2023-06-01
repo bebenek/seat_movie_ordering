@@ -17,55 +17,33 @@ RequestHandler::Request RequestHandler::handleRequest(const std::string& request
     boost::optional<std::string> theater = boost::none;
     boost::optional<std::string> seat = boost::none;
 
+    // parse movie
     auto it = d.FindMember("movie");
-    if (it != d.MemberEnd())
-    {
-        auto &v = it->value;
-        if (v.IsString())
-        {
-            movie = v.GetString();
-        }
-        else
-        {
-            return invalid_request;
-        }
-    }
-    else
-    {
+    if (it == d.MemberEnd()) // no movie
         return {movie, theater, seat};
-    }
+    auto &v = it->value;
+    if (!v.IsString())
+    return invalid_request;
+        movie = v.GetString();
 
+    // parse theater
     it = d.FindMember("theater");
-    if (it != d.MemberEnd())
-    {
-        auto &v = it->value;
-        if (v.IsString())
-        {
-            theater = v.GetString();
-        }
-        else
-        {
-            return invalid_request;
-        }
-    }
-    else
-    {
+    if (it == d.MemberEnd()) // no theater
         return {movie, theater, seat};
-    }
+    auto &v = it->value;
+    if (!v.IsString())
+        return invalid_request;
+    theater = v.GetString();
 
+    // parse seat
     it = d.FindMember("seat");
-    if (it != d.MemberEnd())
-    {
-        auto &v = it->value;
-        if (v.IsString())
-        {
-            seat = v.GetString();
-        }
-        else
-        {
-            return invalid_request;
-        }
-    }
+    if (it == d.MemberEnd()) // no seat
+        return {movie, theater, seat};
+    auto &v = it->value;
+    if (!v.IsString())
+        return invalid_request;
+    seat = v.GetString();
+
 
     return {movie, theater, seat};
 }

@@ -35,6 +35,11 @@ Service shows in simple way how async reservastion of movies could be done.
       ```shell
       ctest
       ```
+   3. Doxygen generation
+      ```shell
+      doxygen Doxyfile
+      ```
+      after generation you can find documentation under docs/html and docs/latex directories
 2. Docker build:
    1. Build the project:
       ```shell

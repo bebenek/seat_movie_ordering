@@ -2,6 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "service.h"
+#include "database.h"
 
 class ServiceTest : public ::testing::Test
 {
@@ -53,21 +54,38 @@ TEST_F(ServiceTest, empty_json_request)
     EXPECT_EQ(service_->processMessage("{}"), "{\"movies\":[\"m1\",\"m2\"]}");
 }
 
-TEST_F(ServiceTest, movie_json_request)
+TEST_F(ServiceTest, missing_movie_json_request)
 {
     EXPECT_EQ(service_->processMessage("{\"movie\": \"1\"}"), "{\"error_message\":\"Movie not found\"}");
+}
+
+TEST_F(ServiceTest, movie_json_request)
+{
     EXPECT_EQ(service_->processMessage("{\"movie\": \"m1\"}"), "{\"movie\":\"m1\",\"theaters\":[\"t1\",\"t2\"]}");
+}
+
+TEST_F(ServiceTest, missing_movie_theather_json_request)
+{
+    EXPECT_EQ(service_->processMessage("{\"movie\": \"1\", \"theater\": \"1\"}"), "{\"error_message\":\"Movie or theater not found\"}");
 }
 
 TEST_F(ServiceTest, movie_theather_json_request)
 {
-    EXPECT_EQ(service_->processMessage("{\"movie\": \"1\", \"theater\": \"1\"}"), "{\"error_message\":\"Movie or theater not found\"}");
     EXPECT_EQ(service_->processMessage("{\"movie\": \"m1\", \"theater\": \"t1\"}"), "{\"movie\":\"m1\",\"theater\":\"t1\",\"seats\":[\"C3\",\"C4\",\"D3\",\"D4\",\"E3\",\"E4\"]}");
 }
 
-TEST_F(ServiceTest, movie_theather_seat_json_request)
+TEST_F(ServiceTest, missing_movie_theather_seat_json_request)
 {
     EXPECT_EQ(service_->processMessage("{\"movie\": \"m1\", \"theater\": \"1\", \"seat\": \"A1\"}"), "{\"error_message\":\"Movie or theater not found\"}");
-    EXPECT_EQ(service_->processMessage("{\"movie\": \"m1\", \"theater\": \"t1\", \"seat\": \"A1\"}"), "{\"reserved_successfully\":false,\"movie\":\"m1\",\"theater\":\"t1\",\"seats\":[\"C3\",\"C4\",\"D3\",\"D4\",\"E3\",\"E4\"]}");
+}
+
+TEST_F(ServiceTest, reservation_successfull_request_than_unsuccessfull_request)
+{
     EXPECT_EQ(service_->processMessage("{\"movie\": \"m1\", \"theater\": \"t1\", \"seat\": \"E4\"}"), "{\"reserved_successfully\":true,\"movie\":\"m1\",\"theater\":\"t1\",\"seats\":[\"C3\",\"C4\",\"D3\",\"D4\",\"E3\"]}");
+    EXPECT_EQ(service_->processMessage("{\"movie\": \"m1\", \"theater\": \"t1\", \"seat\": \"E4\"}"), "{\"reserved_successfully\":false,\"movie\":\"m1\",\"theater\":\"t1\",\"seats\":[\"C3\",\"C4\",\"D3\",\"D4\",\"E3\"]}");
+}
+
+TEST_F(ServiceTest, reservation_unsuccessfull_request)
+{
+    EXPECT_EQ(service_->processMessage("{\"movie\": \"m1\", \"theater\": \"t1\", \"seat\": \"A1\"}"), "{\"reserved_successfully\":false,\"movie\":\"m1\",\"theater\":\"t1\",\"seats\":[\"C3\",\"C4\",\"D3\",\"D4\",\"E3\",\"E4\"]}");
 }

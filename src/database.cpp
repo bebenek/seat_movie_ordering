@@ -21,7 +21,7 @@ std::vector<std::string> Database::getMovies()
     std::vector<std::string> movies;
     for (const auto &movie : database)
     {
-        movies.push_back(movie.first);
+        movies.emplace_back(movie.first);
     }
     return movies;
 }
@@ -38,7 +38,7 @@ boost::optional<std::vector<std::string>> Database::getTheatersByMovie(const std
     std::vector<std::string> theaters;
     for (const auto &theater : it->second)
     {
-        theaters.push_back(theater.first);
+        theaters.emplace_back(theater.first);
     }
     return theaters;
 }
