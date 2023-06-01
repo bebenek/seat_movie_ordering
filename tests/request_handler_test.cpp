@@ -1,7 +1,7 @@
 #include <iostream>
-
 #include "gtest/gtest.h"
 #include "request_handler.h"
+#include <boost/optional/optional_io.hpp>
 
 const std::string ONE = "1";
 const std::string TWO = "2";
@@ -17,9 +17,9 @@ TEST(requestTest, no_json_request)
     const auto &req = request_handler.handleRequest(request);
 
     // THEN
-    EXPECT_EQ(req.movie, boost::none);
-    EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.movie);
+    EXPECT_FALSE(req.theater);
+    EXPECT_FALSE(req.seat);
     EXPECT_FALSE(req.success);
 }
 
@@ -33,9 +33,9 @@ TEST(requestTest, empty_json_request)
     const auto &req = request_handler.handleRequest(request);
 
     // THEN
-    EXPECT_EQ(req.movie, boost::none);
-    EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.movie);
+    EXPECT_FALSE(req.theater);
+    EXPECT_FALSE(req.seat);
     EXPECT_TRUE(req.success);
 }
 
@@ -50,8 +50,8 @@ TEST(requestTest, json_request_with_movie)
 
     // THEN
     EXPECT_EQ(req.movie, ONE);
-    EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.theater);
+    EXPECT_FALSE(req.seat);
     EXPECT_TRUE(req.success);
 }
 
@@ -67,7 +67,7 @@ TEST(requestTest, json_request_with_movie_and_theater)
     // THEN
     EXPECT_EQ(req.movie, ONE);
     EXPECT_EQ(req.theater, TWO);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.seat);
     EXPECT_TRUE(req.success);
 }
 
@@ -98,8 +98,8 @@ TEST(requestTest, json_request_with_movie_and_seat)
 
     // THEN
     EXPECT_EQ(req.movie, ONE);
-    EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.theater);
+    EXPECT_FALSE(req.seat);
     EXPECT_TRUE(req.success);
 }
 
@@ -113,9 +113,9 @@ TEST(requestTest, json_request_with_theater_and_seat)
     const auto &req = request_handler.handleRequest(request);
 
     // THEN
-    EXPECT_EQ(req.movie, boost::none);
-    EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.movie);
+    EXPECT_FALSE(req.theater);
+    EXPECT_FALSE(req.seat);
     EXPECT_TRUE(req.success);
 }
 
@@ -145,9 +145,9 @@ TEST(requestTest, json_request_all_data_movie_number)
     const auto &req = request_handler.handleRequest(request);
 
     // THEN
-    EXPECT_EQ(req.movie, boost::none);
-    EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.movie);
+    EXPECT_FALSE(req.theater);
+    EXPECT_FALSE(req.seat);
     EXPECT_FALSE(req.success);
 }
 
@@ -161,8 +161,8 @@ TEST(requestTest, json_request_all_data_seat_number)
     const auto &req = request_handler.handleRequest(request);
 
     // THEN
-    EXPECT_EQ(req.movie, boost::none);
-    EXPECT_EQ(req.theater, boost::none);
-    EXPECT_EQ(req.seat, boost::none);
+    EXPECT_FALSE(req.movie);
+    EXPECT_FALSE(req.theater);
+    EXPECT_FALSE(req.seat);
     EXPECT_FALSE(req.success);
 }

@@ -42,7 +42,7 @@ Service shows in simple way how async reservastion of movies could be done.
       ```
    2. Run the microservice:
       ```shell
-      docker run -p 8080:8080 -d movie_reservation /app/build/movie_reservation 8080
+      docker run -p 8080:8080 -d movie-order /app/build/movie_reservation 8080 app/example_input_file.txt
       ```
 
 ## API description

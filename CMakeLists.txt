@@ -32,7 +32,7 @@ add_library(handlers src/request_handler.cpp src/service.cpp src/database.cpp sr
 add_executable(${PROJECT_NAME} src/main.cpp src/session.cpp src/server.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE handlers ${CONAN_LIBS} Threads::Threads ${Boost_LIBRARIES} )
 
-add_executable(cpp_test tests/request_handler_test.cpp tests/service_test.cpp tests/database_test.cpp tests/response_generator_test.cpp)
+add_executable(cpp_test tests/service_test.cpp tests/response_generator_test.cpp tests/request_handler_test.cpp tests/request_handler_test.cpp)
 target_link_libraries(cpp_test PRIVATE handlers GTest::gtest_main ${CONAN_LIBS} Threads::Threads ${GTEST_LIBRARIES})
 
 enable_testing()

@@ -143,7 +143,7 @@ TEST_F(DatabaseTest, get_theaters_by_missing_movie)
     auto theaters1_ = database_->getTheatersByMovie("e1");
 
     // THEN
-    EXPECT_EQ(theaters1_, boost::none);
+    EXPECT_FALSE(theaters1_);
 }
 
 TEST_F(DatabaseTest, get_seats_by_movie_and_missing_theater)
@@ -154,5 +154,5 @@ TEST_F(DatabaseTest, get_seats_by_movie_and_missing_theater)
     auto seats = database_->getSeatsByMovieAndTheater("m1", "e1");
 
     // THEN
-    EXPECT_EQ(seats, boost::none);
+    EXPECT_FALSE(seats);
 }
